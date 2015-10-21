@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Ppc hw by ara4711</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Ppc hw</h1>
+        <p>helloworld powerpc-app on qemu-e500</p>
+
+        <p class="view"><a href="https://github.com/ara4711/ppc_hw">View the Project on GitHub <small>ara4711/ppc_hw</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/ara4711/ppc_hw/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/ara4711/ppc_hw/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/ara4711/ppc_hw">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="qemu_ppce500_helloworld" class="anchor" href="#qemu_ppce500_helloworld" aria-hidden="true"><span class="octicon octicon-link"></span></a>qemu_ppce500_helloworld</h1>
+
+<p>helloworld powerpc-app on qemu-e500</p>
+
+<p>This is a minimal program that prints to the serial port.
+A real program will have to do a lot more configuration.
+Documentation and source code from a more complete processor 
+setup can be found at Freescale, search for AN2551.</p>
+
+<h2>
+<a id="credits" class="anchor" href="#credits" aria-hidden="true"><span class="octicon octicon-link"></span></a>CREDITS</h2>
+
+<ul>
+<li><p>The program is based on a stripped version of the u-boot code,
+and the three header files in the inc folder have been copied from
+u-boot. A little hack was be done in processor.h (see AAA_HACK_DISABLE)
+to avoid having to include even more files .</p></li>
+<li><p>The file startup.S is essentially the same file as the file
+EclipseDemos/Juno/POWERPC/Freescale_MPC5554Demo/crt0.S
+From and archive at <a href="http://www.macraigor.com/gnu/hw_support_12.0.0_64-bit.exe">macraigor</a></p></li>
+<li><p>The file test.ld is adapted from an 
+<a href="http://opensourceforu.efytimes.com/2011/07/qemu-for-embedded-systems-development-part-2/">article</a> 
+on bare metal arm on qemu.</p></li>
+</ul>
+
+<h2>
+<a id="synopsis" class="anchor" href="#synopsis" aria-hidden="true"><span class="octicon octicon-link"></span></a>SYNOPSIS</h2>
+
+<p>At startup, tlb1, entry0 is mapped and code is executed from it.
+  However, it is only 4kB so in real use this code will have to 
+  map more code into memory. Since entry0 is in use, entry1 is used
+  for the ccsrbar mapping. </p>
+
+<h3>
+<a id="files" class="anchor" href="#files" aria-hidden="true"><span class="octicon octicon-link"></span></a>FILES:</h3>
+
+<ul>
+<li>startup.S  -- sets the stackpointer and calls c_entry</li>
+<li>test.c     -- implements c_entry which maps the ccsrbar to
+            be able to access the serial port.
+            Then it prints a message to the serial port.</li>
+</ul>
+
+<h2>
+<a id="instructions" class="anchor" href="#instructions" aria-hidden="true"><span class="octicon octicon-link"></span></a>INSTRUCTIONS</h2>
+
+<p>Edit the makefile to set correct paths to the toolchain and qemu. </p>
+
+<p>(You need to have a toolchain to cross-compile to ppc
+  and an appropriate qemu-version. Instructions for these
+  are forthcoming).</p>
+
+<h3>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage:</h3>
+
+<ul>
+<li>   <code>make</code>       -- compiles and links it.</li>
+<li>   <code>make run</code>   -- let qemu run the compiled binary  (exit with <code>C-a x</code>)</li>
+<li>   <code>make debug</code> -- start qemu, waiting for a gdb-connection.</li>
+<li><p><code>make dis_test</code>   -- dumps the assembler to stdout</p></li>
+<li><p>attaching with gdb (inside emacs) --
+  <code>/home/ara/gnutools-bin/powerpc-eabi/bin/powerpc-eabi-gdb -i=mi test.elf</code>
+  in gdb: <code>target remote localhost:1234</code></p></li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/ara4711">ara4711</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
