@@ -14,9 +14,10 @@
  * they apply.
  */
 
+/* provided by the gnu-toolchain */
 #include "ppc-asm.h"
 
-	.file	"crt0.S"
+	.file	"startup.S"
 	.text
 .Lptr:
 	.globl	_Reset

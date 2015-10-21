@@ -49,12 +49,9 @@
 #define CONFIG_SYS_CCSRBAR		0xe0000000
 /* Physical address should be a function call */
 #ifndef __ASSEMBLY__
-// ARA 
-//extern unsigned long long get_phys_ccsrbar_addr_early(void);
-//#define CONFIG_SYS_CCSRBAR_PHYS_HIGH (get_phys_ccsrbar_addr_early() >> 32)
-//#define CONFIG_SYS_CCSRBAR_PHYS_LOW get_phys_ccsrbar_addr_early()
-#define CONFIG_SYS_CCSRBAR_PHYS_HIGH 0x0
-#define CONFIG_SYS_CCSRBAR_PHYS_LOW CONFIG_SYS_CCSRBAR
+extern unsigned long long get_phys_ccsrbar_addr_early(void);
+#define CONFIG_SYS_CCSRBAR_PHYS_HIGH (get_phys_ccsrbar_addr_early() >> 32)
+#define CONFIG_SYS_CCSRBAR_PHYS_LOW get_phys_ccsrbar_addr_early()
 #else
 #define CONFIG_SYS_CCSRBAR_PHYS_HIGH 0x0
 #define CONFIG_SYS_CCSRBAR_PHYS_LOW CONFIG_SYS_CCSRBAR

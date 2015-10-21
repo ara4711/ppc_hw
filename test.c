@@ -16,26 +16,6 @@ void exit(int x) {
 }
 
 
-// -------------------------------------------------------------------
-
-
-volatile unsigned char * const UART0DR = (unsigned char *)0xe0004500;
-
-int putc_uart0(const char *s) {
- 
-  while(*s != '\0') { /* Loop until end of string */
-
-    *UART0DR = (unsigned char)(*s); /* Transmit char */
-
-    //*((char*)0xe0004500) = *s;
-
-    //char __volatile__ *addr2 = (char*)0xe0004500;
-    //*addr2=*s;
-
-    s++; /* Next char */
-  }
-  return 0; 
-}
 
 // -------------------------------------------  uboot setup
 
@@ -95,12 +75,17 @@ void set_tlb(u8 tlb,
 
 
 #include "qemu-ppce500.h"
+
+/* cant use qemu-ppce500.h for _PHYS */
+/* found the address in e500plat.c:44 (.ccsrbar_base) */
+#define CONFIG_SYS_CCSRBAR_PHYS 0xFE0000000ULL
+
 void init_hw() {
   // map ccsrbar
-  // at start we ececute from esel = 0, so chose something else..
+  // at start we execute from esel = 0, so chose something else..
   set_tlb(1, 
-	  CONFIG_SYS_CCSRBAR,      /* v_addr  0xe0000000 see  qemu-ppce500.h */
-	  CONFIG_SYS_CCSRBAR,      /* p_addr. nb. same as the v_addr here. */
+	  CONFIG_SYS_CCSRBAR,      /* v_addr   0xe0000000 see  qemu-ppce500.h */
+	  CONFIG_SYS_CCSRBAR_PHYS, /* p_addr. 0xfe0000000  */
 	  MAS3_SW|MAS3_SR,         /* perm  type=TLB_MAP_IO */
 	  MAS2_I|MAS2_G,           /* wimge type=TLB_MAP_IO */
 	  0,                       /* ts i.e AS=0 */ 
@@ -108,4 +93,22 @@ void init_hw() {
 	  BOOKE_PAGESZ_1M,         /* tsize  ie 2^10kB ie 1MB */
 	  1);
 
+}
+
+// -------------------------------------------------------------------
+
+
+// see from qemu-ppce.h   0xe0004500 
+volatile unsigned char * const UART0DR = (unsigned char *)CONFIG_SYS_NS16550_COM1;
+
+
+int putc_uart0(const char *s) {
+ 
+  while(*s != '\0') { /* Loop until end of string */
+
+    *UART0DR = (unsigned char)(*s); /* Transmit char */
+
+    s++; /* Next char */
+  }
+  return 0; 
 }
